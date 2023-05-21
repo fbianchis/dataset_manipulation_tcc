@@ -1,2 +1,3 @@
 *.csv
 *.mat
+./__pycache__
