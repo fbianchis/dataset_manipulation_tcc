@@ -50,7 +50,7 @@ if (i+1)*(step) < data.shape[0]:
 print(f'TOTAL {data.shape[0]}')
 numpyData = {"array": kmeans.cluster_centers_}
 centers = kmeans.cluster_centers_
-np.save(f'centers_{n_clusters}_knn.npy', centers)
+np.save(f'centers_{n_clusters}_kmeans.npy', centers)
 
 dict_set = {
     'p1':[],

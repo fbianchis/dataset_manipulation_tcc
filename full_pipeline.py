@@ -5,20 +5,22 @@ from scipy.spatial import distance
 from pyhive import hive
 import time
 
+DIVISAO = 8
+TYPE_ORGANIZATION = 1
+ACTUAL_METRIC = 3
+FILE_ORGANIZATION = ['Agrupado','Separado por nós']
+DATABASE_NAME = ['dataset_full','dataset_partition_4']
+TABLE_NAME = ['dataset_full_table','dataset_partition_table']
+METRICS = ['l1', 'l2', 'canberra', 'mahalanobis']
+
 def cal_dist_and_return_gh(point:list, centers:list):
     dist_list = []
-    for i in range(4):
+    for i in range(DIVISAO):
         dist_list.append(distance.euclidean(point, centers[i]))
     
     return dist_list.index(min(dist_list)) + 1
 
-DIVISAO = 4
-TYPE_ORGANIZATION = 0
-ACTUAL_METRIC = 0
-FILE_ORGANIZATION = ['Agrupado','Separado por nós']
-DATABASE_NAME = ['dataset_full','dataset_partition_2']
-TABLE_NAME = ['dataset_full_table','dataset_partition_table']
-METRICS = ['l1', 'l2', 'canberra', 'mahalanobis']
+
 times = {
     'aplicate_l2':0,
     'get_data_from_database':0,
@@ -27,9 +29,9 @@ times = {
 }
 kmeans_centers = np.load(f'./centers_{DIVISAO}_kmeans.npy')
 
-data_to_find_neighbors = [0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,25,3,0,0,0,0,0,0,1,0,0,0,0,0,5,3,2,2,0,0,0,0,96,47,49,8,2,2,2,16,10,17,135,92,39,25,5,6,0,0,12,16,4,3,3,0,9,6,8,19,9,7,30,14,114,27,11,12,9,36,93,126,10,4,5,13,41,135,135,57,0,0,1,2,10,80,76,25,2,0,0,5,12,72,87,27,0,0,0,0,4,135,135,14,7,0,0,0,0,96,135,126,5,0,0,0,26,86,82,102]
+#data_to_find_neighbors = [0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,25,3,0,0,0,0,0,0,1,0,0,0,0,0,5,3,2,2,0,0,0,0,96,47,49,8,2,2,2,16,10,17,135,92,39,25,5,6,0,0,12,16,4,3,3,0,9,6,8,19,9,7,30,14,114,27,11,12,9,36,93,126,10,4,5,13,41,135,135,57,0,0,1,2,10,80,76,25,2,0,0,5,12,72,87,27,0,0,0,0,4,135,135,14,7,0,0,0,0,96,135,126,5,0,0,0,26,86,82,102]
 #data_to_find_neighbors = [11,45,39,84,27,0,0,0,56,117,56,2,1,1,6,8,37,52,117,22,0,0,7,20,9,30,117,62,0,1,3,2,24,86,22,35,46,1,0,0,44,86,15,6,84,51,20,26,117,25,10,0,9,12,18,116,70,15,45,43,1,0,3,67,49,52,14,17,27,9,2,6,26,68,28,47,117,25,0,2,117,117,15,5,7,4,4,34,110,26,1,0,0,12,23,41,58,6,0,0,17,25,2,6,52,26,9,6,28,52,9,29,28,32,6,0,5,86,47,62,25,3,0,0,10,61,40,90]
-#data_to_find_neighbors = [0,1,0,0,1,15,10,3,29,9,0,0,0,28,27,4,145,145,5,0,0,2,5,4,15,135,12,0,3,13,0,0,0,0,0,4,13,28,8,2,91,9,0,3,6,24,15,18,145,51,0,0,0,2,1,49,35,11,0,0,27,111,2,9,4,0,0,5,38,24,14,34,117,30,1,1,6,12,8,11,145,57,0,0,5,42,4,21,22,1,0,0,38,145,4,5,1,0,0,2,7,3,62,113,116,60,1,1,1,1,17,77,145,54,0,0,11,92,12,15,1,0,0,0,10,57,1,0]
+data_to_find_neighbors = [0,1,0,0,1,15,10,3,29,9,0,0,0,28,27,4,145,145,5,0,0,2,5,4,15,135,12,0,3,13,0,0,0,0,0,4,13,28,8,2,91,9,0,3,6,24,15,18,145,51,0,0,0,2,1,49,35,11,0,0,27,111,2,9,4,0,0,5,38,24,14,34,117,30,1,1,6,12,8,11,145,57,0,0,5,42,4,21,22,1,0,0,38,145,4,5,1,0,0,2,7,3,62,113,116,60,1,1,1,1,17,77,145,54,0,0,11,92,12,15,1,0,0,0,10,57,1,0]
 
 st = time.time()
 gh = cal_dist_and_return_gh(data_to_find_neighbors, kmeans_centers)
