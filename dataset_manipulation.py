@@ -25,8 +25,8 @@ class NumpyArrayEncoder(JSONEncoder):
 f = h5py.File('./SIFT10Mfeatures.mat','r')
 data = f.get('fea')
 data = np.array(data)
-full = False
-n_clusters = 2
+full = True
+n_clusters = 1
 
 #kmeans = KMeans(n_clusters=256, random_state=0, n_init="auto").fit(data[:100000][::]) 
 
@@ -54,7 +54,7 @@ np.save(f'centers_{n_clusters}_kmeans.npy', centers)
 
 dict_set = {
     'p1':[],
-    'p2':[],
+    #'p2':[],
     # 'p3':[],
     # 'p4':[],
     # 'p5':[],
